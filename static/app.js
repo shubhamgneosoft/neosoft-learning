@@ -1,12 +1,10 @@
 
 $(document).ready(function(){
 $("#post").click(function(){
-    content = $("#content_post").html();
-
 
   $.post("/create_post",
   {
-    content: content
+    content: $("#content_post").html(),
   },
   function(data, status){
     //alert("Data: " + data + "Status: " + status);
@@ -18,6 +16,25 @@ $("#post").click(function(){
     $("#content_post").html("");
 
   });
+ });
+
+  $(".like_post").click(function(e){
+      post_id = e.target.id
+      $.post("/like_post",
+      {
+        post_id: post_id,
+      },
+      function(data, status){
+        //alert("Data: " + data + "Status: " + status);
+        if(data['status'] ==  "success"){
+            $("#"+post_id+" .w3-badge").html(data['count'])
+            console.log(data['count'])
+        }else{
+            alert("Please Try Again.")
+        }
+
+  })
+
 });
 
 });

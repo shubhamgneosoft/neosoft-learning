@@ -1,9 +1,11 @@
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type = "text/javascript"
+         src = "{{ url_for('static', filename = 'app.js') }}" ></script>
 
 <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
     <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-    <span class="w3-right w3-opacity">1 min</span>
-    <h4>Shubham Gupta</h4><br>
+    <span class="w3-right w3-opacity"><!--Time--></span>
+    <h4>{{post_id | get_user_name}}</h4><br>
     <hr class="w3-clear">
     <p>{{ content }}</p>
 <!--      <div class="w3-row-padding" style="margin:0 -16px">-->
@@ -14,7 +16,9 @@
 <!--          <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">-->
 <!--      </div>-->
 <!--    </div>-->
-    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+    <button type="button" id="{{ post_id }}" class="w3-button w3-theme-d1 w3-margin-bottom like_post"><i class="fa fa-thumbs-up"></i>
+
+         Like <span class="w3-badge w3-right w3-small w3-green">{{ post_id | count_likes}}</span></button>
     <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
 </div>
 
