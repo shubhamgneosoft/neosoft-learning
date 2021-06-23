@@ -1,6 +1,6 @@
 
     {% for comment in results %}
-        <div class="panel-body"><b>{{comment.post_id | get_user_name}} : </b>{{ comment.comment }}</div>
+        <div class="panel-body"><b>{{comment.user_id | get_user_name_by_uid}} : </b>{{ comment.comment }}</div>
     {% else %}
 <div class="panel-body">No Results.</div>
     {% endfor %}

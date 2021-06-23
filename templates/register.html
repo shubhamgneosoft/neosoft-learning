@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="w3-row">
+    <div class="w3-col m3">
+       <div class="w3-card w3-round w3-white w3-hide-small">
+        <div class="w3-container">
+            <b></b>
+        </div>
+      </div>
+         <!-- Alert Box -->
+        {% if msg %}
+          <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+              <i class="fa fa-remove"></i>
+            </span>
+            <p><strong>Hey!</strong></p>
+            <p>{{msg}}</p>
+          </div>
+        {% endif %}
+    </div>
+    <div class="w3-col m6">
+    <form class="w3-container w3-card w3-white w3-round w3-margin" action="" method="post">
+       <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email address:</label>
+        <input type="email" class="form-control" id="email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password">
+      </div>
+      <div class="form-group">
+        <label for="con_password">Confirm Password:</label>
+        <input type="password" class="form-control" id="con_password" name="con_password">
+      </div>
+
+      <button type="submit"  class="w3-button w3-theme-d2 w3-margin-bottom">Submit</button>
+    </form>
+    </div>
+    <div class="w3-col m3"></div>
+</div>
+
+{% endblock %}
