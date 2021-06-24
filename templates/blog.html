@@ -19,7 +19,11 @@
 
       <!-- Interests -->
       <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
+        <div class="w3-container w3-padding-16">
+          <p>
+            <b>Total Post:</b>
+            {{post_data.count()}}
+          </p>
 
         </div>
       </div>
@@ -104,8 +108,24 @@
         </div>
       {% endfor %}
 
-
     </div>
+
+      <div class="pagination">
+        {% if page and page|int > 1%}
+        <a href="{{requested_page}}/{{page|int-1}}">&laquo;</a>
+        {% endif %}
+        {% for n in range(post_data.count()%5-1) %}
+          {% if loop.index == page|int%}
+            <a class="active" href="{{requested_page}}/{{loop.index}}">{{loop.index}}</a>
+           {% else %}
+            <a href="{{requested_page}}/{{loop.index}}">{{loop.index}}</a>
+           {% endif %}
+
+        {% endfor %}
+        {%  if page|int < post_data.count()%5-1 %}
+        <a href="{{requested_page}}/{{page|int+1}}">&raquo;</a>
+        {% endif %}
+      </div>
     <!-- End Middle Column -->
     </div>
 

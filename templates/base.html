@@ -21,17 +21,27 @@
     <div class="w3-top">
      <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Logo</a>
+      <a  href="/blog" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Logo</a>
       <div class="w3-dropdown-hover w3-hide-small ">
       <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-user"></i></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-        <a href="/blog" class="w3-bar-item w3-button">Blog</a>
-        <a href="/login" class="w3-bar-item w3-button">Login</a>
-        <a href="/register" class="w3-bar-item w3-button">Registration</a>
-        <a href="/logout" class="w3-bar-item w3-button">Logout</a>
+
+        {% if session.loggedin %}
+          <a href="/blog" class="w3-bar-item w3-button">Blog</a>
+          <a href="/post/mypost" class="w3-bar-item w3-button">My Post</a>
+          <a href="/logout" class="w3-bar-item w3-button">Logout</a>
+        {% else %}
+
+          <a href="/login" class="w3-bar-item w3-button">Login</a>
+          <a href="/register" class="w3-bar-item w3-button">Registration</a>
+        {% endif %}
       </div>
     </div>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
+         {% if session.userid %}
+         title="{{session.userid | get_user_name_by_uid}}"
+         {% endif %}
+      >
         <img src="https://www.w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
       </a>
      </div>
