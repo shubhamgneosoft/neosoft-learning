@@ -13,7 +13,7 @@ from flask_session import Session
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'e76gu687bcsk#dh@hkdk&vvb$7hvz'
+app.secret_key = os.getenv('SECRET_KEY')
 socketio = SocketIO(app)
 
 app.config["MONGO_URI"] = os.getenv('MONGO_URI')
@@ -268,4 +268,5 @@ def handle_message(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+
+    socketio.run(app, host='0.0.0.0')
