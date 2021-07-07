@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import timedelta
 
 from bson import json_util, ObjectId
 from flask import Flask, render_template, request, jsonify, session, json, url_for, session
@@ -9,10 +10,13 @@ from flask_socketio import SocketIO, send, emit
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 from flask_session import Session
+from celery import Celery
+from celery.schedules import crontab
 
 load_dotenv()
 
 app = Flask(__name__)
+
 app.secret_key = os.getenv('SECRET_KEY')
 socketio = SocketIO(app)
 
@@ -21,6 +25,25 @@ app.config['SESSION_PERMANENT'] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 mongo = PyMongo(app)
+
+app.config['CELERY_BROKER_URL'] = os.getenv('CELERY_BROKER_URL')
+
+celery_beat_schedule = {
+    "time_scheduler": {
+        "task": "scheduled_task",
+        "schedule": 10,
+    }
+}
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+celery.conf.update(
+    broker_url=app.config["CELERY_BROKER_URL"],
+    timezone="UTC",
+    task_serializer="json",
+    accept_content=["json"],
+    result_serializer="json",
+    beat_schedule=celery_beat_schedule,
+)
 
 
 def is_login():
@@ -243,6 +266,7 @@ def get_user_name_by_uid(u_id):
 
     return doc[0]["name"]
 
+
 @app.template_filter()
 def count_likes(post_id):
     post_collection = mongo.db.users_post
@@ -266,7 +290,21 @@ def handle_message(data):
     print('received message: ' + data)
     send(data, broadcast=True)
 
+#
+# @app.route('/celery_task')
+# def welcome():
+#     task = make_drink.delay()
+#
+#     return 'Welcome to Celery!'
+#
+#
+
+
+@celery.task(nbind=True, name='scheduled_task')
+def make_drink():
+    print("task is running")
+
 
 if __name__ == '__main__':
 
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', debug=True)
